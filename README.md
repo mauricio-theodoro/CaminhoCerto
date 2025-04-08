@@ -75,9 +75,8 @@ Um aplicativo mobile desenvolvido em **React Native** com o objetivo de oferecer
 
 ## 👥 Autoria
 
-Desenvolvido por **[Seu Nome]**  
-📧 Email: seunome@email.com  
-🔗 GitHub: [seu-usuario](https://github.com/seu-usuario)
+Desenvolvido por **Mauricio Antônio Theodoro Neto**  
+📧 Email: mauricioantonionetinho@gmail.com  
 
 ---
 
