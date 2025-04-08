@@ -64,13 +64,7 @@ Um aplicativo mobile desenvolvido em **React Native** com o objetivo de oferecer
 4. **Use o app:**
    - Escaneie o QR Code com o Expo Go no seu celular.
    - Ou utilize um emulador Android/iOS.
-
----
-
-## 📸 Capturas de Tela *(opcional)*
-
-> *(Adicione aqui prints do app rodando caso queira deixar visualmente mais atrativo.)*
-
+     
 ---
 
 ## 👥 Autoria
