@@ -1,48 +1,66 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Foto from '../assets/filha.png'; // Imagem local do contato (pode ser personalizada futuramente)
+import Foto from '../assets/filha.png'; // Imagem local do contato
 
 /**
  * Componente de cartão de contato
- * @param {string} tipo - Grau de parentesco (ex: MÃE, FILHA)
+ * @param {string} tipo - Grau de parentesco
  * @param {string} nome - Nome do contato
  * @param {string} telefone - Número de telefone
- * @param {function} onPress - Função ao clicar no cartão (opcional)
- * @param {function} onEdit - Função para editar (pode ser usada no futuro)
- * @param {function} onDelete - Função para deletar (pode ser usada no futuro)
+ * @param {function} onPress - Ação ao clicar no cartão
+ * @param {function} onEdit - Ação ao clicar em "Editar"
+ * @param {function} onDelete - Ação ao clicar em "Excluir"
  */
-export default function Card({ tipo, nome, telefone, onPress, onDelete, onEdit }) {
+export default function Card({ tipo, nome, telefone, onPress, onEdit, onDelete }) {
   return (
-    // Cartão clicável
-    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-      <View style={styles.card}>
-        {/* Imagem do contato (círculo com borda colorida) */}
-        <Image source={Foto} style={styles.image} />
+    // Container principal do cartão (sem TouchableOpacity externo para evitar conflito com botões)
+    <View style={styles.card}>
+      {/* Imagem do contato */}
+      <Image source={Foto} style={styles.image} />
 
-        {/* Informações do contato: nome, tipo e telefone */}
-        <View style={styles.infoContainer}>
-          <View style={styles.headerRow}>
-            <Text style={styles.nome}>{nome}</Text>
-            <Text style={styles.tipo}>({tipo})</Text>
-          </View>
-          <Text style={styles.telefone}>{telefone}</Text>
+      {/* Informações do contato */}
+      <View style={styles.infoContainer}>
+        {/* Nome e tipo (grau de parentesco) */}
+        <View style={styles.headerRow}>
+          <Text style={styles.nome}>{nome}</Text>
+          <Text style={styles.tipo}>({tipo})</Text>
+        </View>
+
+        {/* Número de telefone */}
+        <Text style={styles.telefone}>{telefone}</Text>
+
+        {/* Botões de ação */}
+        <View style={styles.actionRow}>
+          {/* Botão Editar */}
+          {onEdit && (
+            <TouchableOpacity style={styles.btnEditar} onPress={onEdit}>
+              <Text style={styles.textoBtn}>Editar</Text>
+            </TouchableOpacity>
+          )}
+
+          {/* Botão Excluir */}
+          {onDelete && (
+            <TouchableOpacity style={styles.btnExcluir} onPress={onDelete}>
+              <Text style={styles.textoBtn}>Excluir</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
-// Estilos para o componente de cartão
+// Estilos do componente
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',               // alinha imagem e informações lado a lado
-    backgroundColor: '#fff',           // fundo branco
-    borderRadius: 12,                  // bordas arredondadas
-    padding: 12,                       // espaçamento interno
-    marginBottom: 15,                  // espaçamento entre os cartões
-    alignItems: 'center',             // centraliza verticalmente os itens
-    elevation: 4,                      // sombra no Android
-    shadowColor: '#000',              // sombra no iOS
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 15,
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -50,18 +68,18 @@ const styles = StyleSheet.create({
   image: {
     width: 65,
     height: 65,
-    borderRadius: 32.5,                // torna a imagem circular
-    marginRight: 15,                   // espaço entre imagem e texto
+    borderRadius: 15,
+    marginRight: 15,
     borderWidth: 2,
-    borderColor: '#fd3707',           // borda laranja estilizada
+    borderColor: '#24CBAF',
   },
   infoContainer: {
-    flex: 1,                           // ocupa todo o espaço restante
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
   headerRow: {
-    flexDirection: 'row',             // nome e tipo lado a lado
+    flexDirection: 'row',
     alignItems: 'baseline',
     marginBottom: 4,
   },
@@ -79,5 +97,27 @@ const styles = StyleSheet.create({
   telefone: {
     fontSize: 15,
     color: '#555',
+    marginBottom: 8,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    gap: 10, // funciona em versões recentes do React Native
+  },
+  btnEditar: {
+    backgroundColor: '#24CBAF',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    marginRight: 10,
+  },
+  btnExcluir: {
+    backgroundColor: '#fd3707',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+  textoBtn: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
