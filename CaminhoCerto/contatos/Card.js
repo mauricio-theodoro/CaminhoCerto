@@ -1,123 +1,142 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Foto from '../assets/filha.png'; // Imagem local do contato
+import PropTypes from 'prop-types';
 
-/**
- * Componente de cartão de contato
- * @param {string} tipo - Grau de parentesco
- * @param {string} nome - Nome do contato
- * @param {string} telefone - Número de telefone
- * @param {function} onPress - Ação ao clicar no cartão
- * @param {function} onEdit - Ação ao clicar em "Editar"
- * @param {function} onDelete - Ação ao clicar em "Excluir"
- */
-export default function Card({ tipo, nome, telefone, onPress, onEdit, onDelete }) {
+const Card = ({ tipo, nome, telefone, foto, onEdit, onDelete }) => {
   return (
-    // Container principal do cartão (sem TouchableOpacity externo para evitar conflito com botões)
     <View style={styles.card}>
-      {/* Imagem do contato */}
-      <Image source={Foto} style={styles.image} />
+      {/* Container da foto com fallback para imagem padrão */}
+      <View style={styles.imageContainer}>
+        <Image
+          source={foto ? 
+            { uri: `data:image/jpeg;base64,${foto}` } : 
+            require('../assets/filha.png')
+          }
+          style={styles.image}
+          resizeMode="cover"
+        />
+      </View>
 
       {/* Informações do contato */}
       <View style={styles.infoContainer}>
-        {/* Nome e tipo (grau de parentesco) */}
-        <View style={styles.headerRow}>
-          <Text style={styles.nome}>{nome}</Text>
+        {/* Header com nome e tipo */}
+        <View style={styles.header}>
+          <Text style={styles.nome} numberOfLines={1} ellipsizeMode="tail">
+            {nome}
+          </Text>
           <Text style={styles.tipo}>({tipo})</Text>
         </View>
 
-        {/* Número de telefone */}
+        {/* Detalhes do contato */}
         <Text style={styles.telefone}>{telefone}</Text>
 
         {/* Botões de ação */}
-        <View style={styles.actionRow}>
-          {/* Botão Editar */}
-          {onEdit && (
-            <TouchableOpacity style={styles.btnEditar} onPress={onEdit}>
-              <Text style={styles.textoBtn}>Editar</Text>
-            </TouchableOpacity>
-          )}
-
-          {/* Botão Excluir */}
-          {onDelete && (
-            <TouchableOpacity style={styles.btnExcluir} onPress={onDelete}>
-              <Text style={styles.textoBtn}>Excluir</Text>
-            </TouchableOpacity>
-          )}
+        <View style={styles.actions}>
+          <TouchableOpacity 
+            style={[styles.button, styles.editButton]} 
+            onPress={onEdit}
+          >
+            <Text style={styles.buttonText}>Editar</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.button, styles.deleteButton]} 
+            onPress={onDelete}
+          >
+            <Text style={styles.buttonText}>Excluir</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   );
-}
+};
 
-// Estilos do componente
+Card.propTypes = {
+  tipo: PropTypes.string.isRequired,
+  nome: PropTypes.string.isRequired,
+  telefone: PropTypes.string.isRequired,
+  foto: PropTypes.string,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
+};
+
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    padding: 12,
-    marginBottom: 15,
-    alignItems: 'center',
-    elevation: 4,
+    padding: 16,
+    marginBottom: 12,
+    elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowRadius: 4,
+  },
+  imageContainer: {
+    width: 72,
+    height: 72,
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginRight: 16,
+    backgroundColor: '#F8F9FA',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#E9ECEF',
   },
   image: {
-    width: 65,
-    height: 65,
-    borderRadius: 15,
-    marginRight: 15,
-    borderWidth: 2,
-    borderColor: '#24CBAF',
+    width: '100%',
+    height: '100%',
   },
   infoContainer: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
   },
-  headerRow: {
+  header: {
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: 'center',
     marginBottom: 4,
   },
   nome: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: '600',
+    color: '#212529',
     marginRight: 8,
+    maxWidth: '70%',
   },
   tipo: {
     fontSize: 14,
-    color: '#fd3707',
+    color: '#FD7E14',
     fontStyle: 'italic',
   },
   telefone: {
     fontSize: 15,
-    color: '#555',
+    color: '#495057',
     marginBottom: 8,
   },
-  actionRow: {
+  actions: {
     flexDirection: 'row',
-    gap: 10, // funciona em versões recentes do React Native
+    gap: 8,
   },
-  btnEditar: {
+  button: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    minWidth: 80,
+    alignItems: 'center',
+  },
+  editButton: {
     backgroundColor: '#24CBAF',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    marginRight: 10,
   },
-  btnExcluir: {
-    backgroundColor: '#fd3707',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 8,
+  deleteButton: {
+    backgroundColor: '#F03E3E',
   },
-  textoBtn: {
-    color: '#fff',
-    fontWeight: 'bold',
+  buttonText: {
+    color: '#FFFFFF',
+    fontWeight: '500',
+    fontSize: 14,
   },
 });
+
+export default React.memo(Card);
