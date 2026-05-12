@@ -43,8 +43,8 @@ Contém:
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clon
+cd 
 2. Instale as dependências
 bash
 Copiar
